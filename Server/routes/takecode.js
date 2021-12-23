@@ -1,0 +1,49 @@
+const router = require("express").Router();
+const Doc = require("../models/doc");
+const { nanoid } = require("nanoid");
+
+router.post("/api/v1/takeCode", async (req, res) => {
+    
+    let { language, code, customUrl } = req.body;
+
+    if (code === undefined) {
+        return res.status(401).json({ error: "No code provided" });
+    }
+
+    language == undefined ? (language = "text") : (language = language);
+
+    if (customUrl.length <= 4) {
+        return res
+        .status(401)
+        .json({ error: "Custom url must be at least 5 characters long" });
+    }
+
+    try {
+        if (customUrl !== undefined) {
+        let url = await Doc.findOne({ customUrl }).exec();
+
+        if (url) 
+            return res.status(401).json({ error: "Custom url already exists" });
+        }
+
+        else {
+        customUrl = await nanoid(5);
+        }
+
+        const doc = new Doc({
+        language,
+        code,
+        customUrl,
+        });
+
+        await doc.save();
+    } 
+    
+    catch (err) {
+        console.log(err);
+    }
+
+    res.status(201).send("Successfully created new document");
+});
+
+module.exports = router;
