@@ -4,6 +4,7 @@ require('dotenv').config();
 
 const takeCode = require('./routes/takecode');
 const getCode = require('./routes/getcode');
+const editCode = require('./routes/editcode');
 require('./db');
 
 const app = express();
@@ -19,6 +20,7 @@ app.post('/', (req, res) => {
 
 app.use(takeCode);
 app.use(getCode);
+app.use(editCode);
 
 app.get('*', (req, res) => {
     res.render('404', {
