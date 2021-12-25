@@ -3,7 +3,7 @@ const Doc = require("../models/doc");
 const { nanoid } = require("nanoid");
 
 router.post("/api/v1/takeCode", async (req, res) => {
-    
+
     let { language, code, customUrl } = req.body;
 
     if (code === undefined) {
@@ -27,7 +27,7 @@ router.post("/api/v1/takeCode", async (req, res) => {
         }
 
         else {
-        customUrl = await nanoid(5);
+          customUrl = await nanoid(5);
         }
 
         const doc = new Doc({

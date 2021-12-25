@@ -10,13 +10,13 @@ router.get('/api/v1/:getCode', async(req, res) => {
         if(!doc){
             return res.status(401).json({ error: 'No document found'});
         }
+
+        return res.status(200).json(doc);
     }
-    
+
     catch(err){
         res.status(500).json({ error: err.message });
     }
-
-    res.status(200).json(doc);
 });
 
 module.exports = router;
