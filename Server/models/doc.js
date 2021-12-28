@@ -15,14 +15,15 @@ const doc = new mongoose.Schema(
       required: true,
       unique: true,
     },
-  },
-  { timestamps: true },
-  {
-    expirationDate: {
-      type: Date,
-      expires: 0,
+    expiryDate: {
+       type: String,
+       required: true,
     },
-  }
+    createdAt: {
+      type: Date,
+      expires: "10s",
+    }
+  },
 );
 
 const Doc = mongoose.model("DelDog", doc);

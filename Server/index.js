@@ -25,7 +25,7 @@ app.use(editCode);
 app.get('*', (req, res) => {
     res.render('404', {
         title: '404',
-        name: 'Url-Shortener',
+        name: 'Sasta-DelDog',
         errorMessage: 'Page not found.'
     })
 })

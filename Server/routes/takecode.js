@@ -4,13 +4,14 @@ const { nanoid } = require("nanoid");
 
 router.post("/api/v1/takeCode", async (req, res) => {
 
-    let { language, code, customUrl } = req.body;
+    let { language, code, customUrl, expiryDate } = req.body;
 
     if (code === undefined) {
         return res.status(401).json({ error: "No code provided" });
     }
 
     language == undefined ? (language = "text") : (language = language);
+    expiryDate == undefined ? (expiryDate = "100d") : (expiryDate = expiryDate);
 
     if (customUrl.length <= 4) {
         return res
@@ -31,9 +32,10 @@ router.post("/api/v1/takeCode", async (req, res) => {
         }
 
         const doc = new Doc({
-        language,
-        code,
-        customUrl,
+            language,
+            code,
+            customUrl,
+            expiryDate
         });
 
         await doc.save();
