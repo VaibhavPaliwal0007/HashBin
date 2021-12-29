@@ -1,31 +1,36 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSave, faPlus, faClock } from "@fortawesome/free-solid-svg-icons";
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import './App.scss';
-import Editor from "@monaco-editor/react";
 
 function App ()
 {
+  const [ code, setCode ] = React.useState(
+    `function add(a, b) {\n  return a + b;\n}`
+  );
+
   return (
     <div className="App">
       <section className="header">
-        <span>spider.bin</span>
-        <input placeholder="Custom Url" />
-        <div>
-          <FontAwesomeIcon icon={ faSave } />
-          <FontAwesomeIcon icon={ faPlus } />
-          <FontAwesomeIcon icon={ faClock } />
+        <span className="site-name">spider.bin</span>
+        <input className="custom-url" type="text" placeholder="Custom URL" />
+        <div className="btn-wrapper">
+          <FontAwesomeIcon icon={ faSave } className="btn" />
+          <FontAwesomeIcon icon={ faPlus } className="btn" />
+          <FontAwesomeIcon icon={ faClock } className="btn" />
         </div>
       </section>
-      <section className="editor">
-        <Editor
-          height="100%"
-          
-          theme= 'vs-dark'
-        />
+      <section className="main">
+        <textarea className="editor"></textarea>
       </section>
-      <section className="footer"></section>
-      {/* hello */ }
+      <section className="footer">
+        <div>
+          <span className="copyleft">©</span>
+          <span>
+            Made with ❤️ by LmaoDED Industries
+          </span>
+        </div>
+      </section>
     </div>
   );
 }
