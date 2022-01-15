@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const ms = require('ms');
 const Doc = require("../models/doc");
 const { nanoid } = require("nanoid");
 
@@ -12,8 +13,11 @@ router.post("/api/v1/takeCode", async (req, res) => {
         return res.status(401).json({ error: "No code provided" });
     }
 
-    language == undefined ? (language = "text") : (language = language);
-    expiryDate == undefined ? (expiryDate = "100d") : (expiryDate = expiryDate);
+    language === (undefined || language.length === 0) ? (language = "text") : (language = language);
+    expiryDate === undefined ? (expiryDate = "1h") : (expiryDate = expiryDate);
+
+    expiryDate = Date.now() + ms(expiryDate.toString());
+    console.log(new Date(expiryDate), expiryDate);
 
     if (customUrl.length <= 4) {
         return res
