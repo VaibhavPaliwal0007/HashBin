@@ -1,30 +1,24 @@
 const mongoose = require("mongoose");
 
-const doc = new mongoose.Schema(
-  {
+const doc = new mongoose.Schema({
     code: {
-      type: String,
-      required: true,
+        type: String,
+        required: true,
     },
     language: {
-      type: String,
-      required: true,
+        type: String,
+        required: true,
     },
     customUrl: {
-      type: String,
-      required: true,
-      unique: true,
+        type: String,
+        required: true,
+        unique: true,
     },
     expiryDate: {
-       type: String,
-       required: true,
-    },
-    createdAt: {
-      type: Date,
-      expires: "10s",
+        type: String,
+        required: true,
     }
-  },
-);
+});
 
 const Doc = mongoose.model("DelDog", doc);
 
