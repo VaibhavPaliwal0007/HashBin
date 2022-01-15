@@ -6,6 +6,8 @@ router.post("/api/v1/takeCode", async (req, res) => {
 
     let { language, code, customUrl, expiryDate } = req.body;
 
+    // code = Buffer.from(code).toString('base64');
+
     if (code === undefined) {
         return res.status(401).json({ error: "No code provided" });
     }
@@ -30,7 +32,7 @@ router.post("/api/v1/takeCode", async (req, res) => {
         else {
           customUrl = await nanoid(5);
         }
-
+        
         const doc = new Doc({
             language,
             code,

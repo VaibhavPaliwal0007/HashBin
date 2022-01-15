@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const { Mongoose } = require('mongoose');
 const Doc = require('../models/doc');
 
 router.get('/api/v1/:getCode', async(req, res) => {
@@ -10,6 +11,9 @@ router.get('/api/v1/:getCode', async(req, res) => {
         if(!doc){
             return res.status(401).json({ error: 'No document found'});
         }
+
+        // doc.code = Buffer.from(doc.code, 'base64').toString('utf-8');
+        Doc.deleteMany();
 
         return res.status(200).json(doc);
     }
