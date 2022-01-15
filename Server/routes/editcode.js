@@ -4,6 +4,8 @@ const Doc = require('../models/doc');
 router.post('/api/v1/editcode', async (req, res) => {
     let { language, code, customUrl } = req.body;
 
+    // code = Buffer.from(code).toString('base64');
+
     if (code === undefined) {
         return res.status(401).json({ error: "No code provided" });
     }
