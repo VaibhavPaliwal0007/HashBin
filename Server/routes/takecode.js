@@ -30,7 +30,7 @@ router.post("/api/v1/takeCode", async (req, res) => {
         let url = await Doc.findOne({ customUrl }).exec();
 
         if (url) 
-            return res.status(401).json({ error: "Custom url already exists" });
+            return res.status(404).json({ error: "Custom url already exists" });
         }
 
         else {
