@@ -1,54 +1,86 @@
-import React, { useEffect, useRef, useState } from 'react';
-import axios from "axios";
-import { render } from "react-dom";
-import
-{
-  BrowserRouter,
-  Routes,
-  Route
-} from "react-router-dom";
-
-import { useSearchParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSave, faPlus, faClock } from "@fortawesome/free-solid-svg-icons";
 
 import './App.scss';
 
-interface Bin
-{
-  language: string,
-  customUrl: string,
-  code: string,
-  expiryDate: string,
-}
+import { getBin } from "./logic/getBin";
+import { saveBin } from "./logic/saveBin";
+import { SaveStates, Bin, SaveIcons } from "./logic/constants";
+import { CustomUrlInput } from "./components/CustomUrlInput";
+import { ExpiryMenu } from "./components/ExpiryMenu";
+import { Footer } from "./components/Footer";
+import { Main } from "./components/Main";
 
-async function saveBin ( bin: Bin )
-{
-  const response = await axios.post( "http://localhost:4000/api/v1/takeCode", bin );
-  console.log( response );
-}
-
-async function getBin ( binUrl: String ) 
-{
-  const response = await axios.get( `http://localhost:4000/api/v1${ binUrl }` );
-  return response.data;
-}
 
 function App ()
 {
-  const [ customUrl, setCustomURL ] = useState( "" );
+  const [ customUrl, setCustomUrl ] = useState( "" );
+  const [ customUrlError, setCustomUrlError ] = useState( false );
+
   const [ binData, setBinData ] = useState( "" );
+  const [ language, setLanguage ] = useState( "js" );
+  const [ expiryDate, setExpiryDate ] = useState( "Never" );
+
+  const [ saveIcon, setSaveIcon ] = useState( faSave );
+  const [ saveState, setSaveState ] = useState( SaveStates.neutral );
+
+  const [ newBinIcon, setNewBinIcon ] = useState( faPlus );
+  const [ expiryIcon, setExpiryIcon ] = useState( faClock );
+
 
   function displayBin ( bin: Bin )
   {
-    setCustomURL( bin.customUrl );
+    setCustomUrl( bin.customUrl );
     setBinData( bin.code );
   }
 
-  function newBin() {
-    setCustomURL( "" );
+  function newBin ()
+  {
+    window.location.pathname = '/';
+    setCustomUrl( "" );
     setBinData( "" );
+  }
+
+  async function onSaveClick ()
+  {
+    const status = await saveBin( {
+      language: language,
+      customUrl: customUrl,
+      code: binData,
+      expiryDate: expiryDate,
+    } );
+
+    console.log( status );
+
+    switch ( status )
+    {
+      case 201:
+        setSaveIcon( SaveIcons.saveSuccessIcon );
+        setSaveState( SaveStates.success );
+        window.location.pathname = customUrl;
+        break;
+
+
+      case 401:
+      case 404:
+        setSaveIcon( SaveIcons.saveFailureIcon );
+        setSaveState( SaveStates.failure );
+        setCustomUrlError( true );
+        break;
+
+      default:
+        break;
+    }
+
+    console.log( saveState, customUrlError );
+
+    setTimeout( () =>
+    {
+      setSaveIcon( SaveIcons.saveNeutralIcon );
+      setSaveState( SaveStates.neutral );
+    }, 1200 );
   }
 
   useEffect( () =>
@@ -72,65 +104,53 @@ function App ()
     checkBinUrl();
   }, [] );
 
+
   return (
     <div className="App">
+
       <section className="header">
         <span className="site-name">spider.bin</span>
-        <input
-          className="custom-url"
-          type="text"
-          placeholder="Custom URL"
-          value={ customUrl }
-          onChange={ ( event ) =>
-          {
-            setCustomURL( event.target.value );
-          } } />
+        < CustomUrlInput customUrlError={ customUrlError } customUrl={ customUrl } setCustomUrl={ setCustomUrl } setCustomUrlError={ setCustomUrlError } />
 
         <div className="btn-wrapper">
           <FontAwesomeIcon
-            icon={ faSave }
-            className="btn"
-            onClick={ () =>
+            title="Save Bin"
+            icon={ saveIcon }
+            className={
+              `save btn ${ saveState }`
+            }
+            onClick={ async () =>
             {
-              saveBin( {
-                language: "txt",
-                customUrl: customUrl,
-                code: binData,
-                expiryDate: "fuck you",
-              } );
+              await onSaveClick();
             } } />
           <FontAwesomeIcon
-            icon={ faPlus }
-            className="btn"
+            title="New Bin"
+            icon={ newBinIcon }
+            className="new btn"
             onClick={ () =>
             {
               newBin();
-            }}
+            } }
           />
-          <FontAwesomeIcon icon={ faClock } className="btn" />
+          <FontAwesomeIcon
+            title="Set Expiry Time"
+            icon={ expiryIcon }
+            className="timer btn"
+            onClick={ () =>
+            {
+              console.log( expiryDate );
+            } }
+          />
+          <ExpiryMenu setExpiryDate={ setExpiryDate } />
         </div>
       </section>
-      <section className="main">
-        <textarea
-          className="editor"
-          value={ binData }
-          onChange={ ( event ) =>
-          {
-            setBinData( event.target.value );
-          } }
-        />
-      </section>
-      <section className="footer">
-        <div>
-          <span className="copyleft">©</span>
-          <span>
-            Made with ❤️ by LmaoDED Industries
-          </span>
-        </div>
-      </section>
+
+      <Main binData={ binData } language={ language } setBinData={ setBinData} />
+
+      <Footer />
+
     </div>
   );
-
 }
 
 export default App;
