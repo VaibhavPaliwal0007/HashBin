@@ -7,7 +7,7 @@ router.post('/api/v1/editcode', async (req, res) => {
     // code = Buffer.from(code).toString('base64');
 
     if (code === undefined) {
-        return res.status(401).json({ error: "No code provided" });
+        return res.status(404).json({ error: "No code provided" });
     }
 
     language == undefined ? (language = "text") : (language = language);

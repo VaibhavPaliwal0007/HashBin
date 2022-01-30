@@ -17,7 +17,7 @@ router.get('/api/v1/:getCode', async(req, res) => {
     }
 
     catch(err){
-        res.status(500).json({ error: err.message });
+        res.status(501).json({ error: err.message });
     }
 });
 

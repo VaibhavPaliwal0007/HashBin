@@ -10,7 +10,7 @@ router.post("/api/v1/takeCode", async (req, res) => {
     // code = Buffer.from(code).toString('base64');
 
     if (code === undefined) {
-        return res.status(401).json({ error: "No code provided" });
+        return res.status(404).json({ error: "No code provided" });
     }
 
     language === (undefined || language.length === 0) ? (language = "text") : (language = language);
@@ -30,7 +30,7 @@ router.post("/api/v1/takeCode", async (req, res) => {
         let url = await Doc.findOne({ customUrl }).exec();
 
         if (url) 
-            return res.status(404).json({ error: "Custom url already exists" });
+            return res.status(401).json({ error: "Custom url already exists" });
         }
 
         else {
