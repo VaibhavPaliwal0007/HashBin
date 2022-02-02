@@ -3,7 +3,7 @@ const ms = require('ms');
 const Doc = require("../models/doc");
 const { nanoid } = require("nanoid");
 
-router.post("/api/v1/takeCode", async (req, res) => {
+router.post("/api/v1/saveCode", async (req, res) => {
 
     let { language, code, customUrl, expiryDate } = req.body;
 
@@ -17,7 +17,10 @@ router.post("/api/v1/takeCode", async (req, res) => {
     expiryDate === undefined ? (expiryDate = "1h") : (expiryDate = expiryDate);
 
     expiryDate = Date.now() + ms(expiryDate.toString());
-    console.log(new Date(expiryDate), expiryDate);
+
+    if(!expiryDate) {
+        return res.status(404).send({ error: "No expiry date provided" });
+    }
 
     if (customUrl.length <= 4) {
         return res
