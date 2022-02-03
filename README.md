@@ -9,8 +9,7 @@ After the shut down of del.dog (R.I.P), hash.bin was born to provide everyone wi
 
 The website is built on MERN stack and you can enter any custom url along with the content you want to share with the expiry date. Here is the demo. 
 
-
-![video](https://raw.githubusercontent.com/VaibhavPaliwal0007/Chotu-JS/master/Untitled.gif)
+![video](https://user-images.githubusercontent.com/78612380/152390291-13ebf757-cc9c-4670-bf65-a32cbd89408c.gif)
 
 - If you want to contribute to this or report any issue, you can <a href="https://github.com/hash-define-organization/hash.bin">visit this</a> as we are making the project open-source under HashDefine organization.
 Hence, this repository will no longer be updated. 
