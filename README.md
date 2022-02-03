@@ -13,3 +13,12 @@ The website is built on MERN stack and you can enter any custom url along with t
 
 - If you want to contribute to this or report any issue, you can <a href="https://github.com/hash-define-organization/hash.bin">visit this</a> as we are making the project open-source under HashDefine organization.
 Hence, this repository will no longer be updated. 
+
+<br />
+
+
+<div><strong> Contributors✨ </strong></div>
+<br />
+<a href="https://github.com/VaibhavPaliwal0007/HashBin/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=VaibhavPaliwal0007/HashBin" />
+</a>
